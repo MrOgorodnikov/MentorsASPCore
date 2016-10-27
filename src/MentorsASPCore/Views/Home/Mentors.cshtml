@@ -1,0 +1,43 @@
+﻿@model IEnumerable<MentorsASPCore.Models.DTO.MentorTecnologyDTO>
+@{ 
+    Layout = null; 
+}
+
+
+
+<!Doctype html>
+<html>
+<head>
+    <title>
+        Mentors
+    </title>
+</head>
+<body>
+
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>Surname</td>
+            <td>Age</td>
+            <td>Experience</td>
+            <td>Work</td>
+            <td>Students</td>
+            <td>Tecnology</td>
+        </tr>
+
+        @foreach (var mentor in Model)
+        {
+            <tr>
+                <td>@mentor.Mentor.Name</td>
+                <td>@mentor.Mentor.Surname</td>
+                <td>@mentor.Mentor.Age</td>
+                <td>@mentor.Mentor.ExperienceInYear</td>
+                <td>@mentor.Mentor.PlaceOfWork</td>
+                <td>@mentor.Mentor.MaxStudentCount</td>
+                <td>@mentor.Tecnology.Name</td>
+                <td><a href="~/Home/ChangeMentorInfo/@mentor.Mentor.Id">Change</a></td>
+            </tr>
+        }
+    </table>
+</body>
+</html>   
