@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MentorsASPCore.Models.DTO;
 using MentorsASPCore.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Dynamic;
-using MentorsASPCore.Models.DTO;
 
 namespace MentorsASPCore.Controllers
 {
-    public class HomeController : Controller
+    public class MentorWithStudentsController : Controller
     {
         MentorsContext db;
 
-        public HomeController(MentorsContext context)
+        public MentorWithStudentsController(MentorsContext context)
         {
             db = context;
         }
         public IActionResult Index()
         {
+
             return View(CreateMentorStudentList());
         }
 
@@ -36,7 +36,5 @@ namespace MentorsASPCore.Controllers
 
             return msDTO;
         }
-
-       
     }
 }
