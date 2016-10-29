@@ -8,7 +8,7 @@ namespace MentorsASPCore.Models
 {
     public class Mentor
     {
-        public int Id { get; private set; }
+        public int Id { get;  set; }
         [Required]
         public string Name { get; set; }
         [Required]

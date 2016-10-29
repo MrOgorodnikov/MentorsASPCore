@@ -5,7 +5,7 @@ namespace MentorsASPCore.Models
 {
     public class Tecnology
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
 

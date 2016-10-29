@@ -32,6 +32,41 @@ namespace MentorsASPCore.Controllers
         {
             return View(CreateMentorTecnologyList());
         }
+        [HttpGet]
+        public IActionResult ChangeMentorInfo(int Id)
+        {
+            var mentor = db.Mentors.First(m => m.Id == Id);
+            var tecnologiesList = db.Tecnologies.ToList();
+            var mentorsTecnologies = db.Mentors
+                                    .Include(mt => mt.MentorTecnology)
+                                    .ThenInclude(t => t.Tecnology)
+                                    .ToList()
+                                    .First(id => id.Id == Id)
+                                    .MentorTecnology
+                                    .Select(t => t.Tecnology)
+                                    .ToList();
+                
+            
+            ViewBag.MentorId = Id;
+            return View(new MentorTecnologiesDTO { Mentor = mentor, AllTecnologies = tecnologiesList, MentorsTecnologies = mentorsTecnologies});
+        }
+
+        [HttpPost]
+        public RedirectResult ChangeMentorInfo(Mentor mentor)
+        {
+            db.Mentors.Update(mentor);
+            db.SaveChanges();
+
+            //Use it Tecnology.Id only int
+
+            //foreach (var x in Request.Form.Keys)
+            //{
+            //    x.A
+            //}
+            
+
+            return Redirect("~/Home/Mentors");
+        }
 
         private List<MentorTecnologyDTO> CreateMentorTecnologyList()
         {
