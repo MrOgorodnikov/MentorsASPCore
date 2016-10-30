@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using MentorsASPCore.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Dynamic;
 using MentorsASPCore.Models.DTO;
+using MentorsASPCore.BussinesLogic;
 
 namespace MentorsASPCore.Controllers
 {
@@ -25,12 +22,12 @@ namespace MentorsASPCore.Controllers
 
         public IActionResult MentorStudent()
         {
-            return View(CreateMentorStudentList());
+            return View(Home.CreateMentorStudentList(db));
         }
 
         public IActionResult Mentors()
         {
-            return View(CreateMentorTecnologyList());
+            return View(Home.CreateMentorTecnologyList(db));
         }
         [HttpGet]
         public IActionResult ChangeMentorInfo(int Id)
@@ -61,7 +58,7 @@ namespace MentorsASPCore.Controllers
         {
             db.Mentors.Remove(mentor);
             db.SaveChanges();
-            Add(mentor);
+            Home.AddMentor(mentor, Request.Form.Keys.ToList(), db);
 
             return Redirect("~/Home/Mentors");
         }
@@ -74,79 +71,16 @@ namespace MentorsASPCore.Controllers
         [HttpPost]
         public RedirectResult Add(Mentor mentor)
         {
-            var newMentor = new Mentor
-            {
-                Name = mentor.Name,
-                Surname = mentor.Surname,
-                Age = mentor.Age,
-                ExperienceInYear = mentor.ExperienceInYear,
-                MaxStudentCount = mentor.MaxStudentCount,
-                PlaceOfWork = mentor.PlaceOfWork
-            };
-            db.Mentors.Add(newMentor);
-            db.SaveChanges();
-            AddTecnologiesToMentor(newMentor);
-
-            db.SaveChanges();
+            Home.AddMentor(mentor, Request.Form.Keys.ToList(), db);
 
             return Redirect("~/Home/Mentors");
         }
 
-        private void AddTecnologiesToMentor(Mentor mentor)
-        {
-            foreach (var x in Request.Form.Keys)
-            {
-                int id;
-                if (int.TryParse(x, out id))
-                    db.Mentors
-                        .First(m => m.Id == mentor.Id)
-                        .MentorTecnology
-                        .Add(new MentorTecnology
-                        {
-                            Mentor = mentor,
-                            Tecnology =
-                        db.Tecnologies.First(t => t.Id == id)
-                        });
-            }
-        }
+        
 
-        private List<MentorTecnologyDTO> CreateMentorTecnologyList()
-        {
-            var mtDTO = new List<MentorTecnologyDTO>();
-            var mentorList = db.Mentors
-                            .Include(mt => mt.MentorTecnology)
-                            .ThenInclude(t => t.Tecnology)
-                            .ToList();
-            foreach (var mentor in mentorList)
-            {
-                var tecnologyList = mentor.MentorTecnology
-                                    .Select(t => t.Tecnology)
-                                    .ToList();
-                foreach (var tecnology in tecnologyList)
-                    mtDTO.Add(new MentorTecnologyDTO { Mentor = mentor, Tecnology = tecnology});
-            }
+        
 
-            return mtDTO;
-        }
-
-        private List<MentorStudentDTO> CreateMentorStudentList()
-        {
-            var msDTO = new List<MentorStudentDTO>();
-            var mentorList = db.Mentors
-                            .Include(ms => ms.MentorStudent)
-                            .ThenInclude(s => s.Student)
-                            .ToList();
-            foreach (var mentor in mentorList)
-            {
-                var studentList = mentor.MentorStudent
-                                 .Select(s => s.Student)
-                                 .ToList();
-                foreach (var student in studentList)
-                    msDTO.Add(new MentorStudentDTO { Mentor = mentor, Student = student });
-            }
-
-            return msDTO;
-        }
+        
 
        
     }
