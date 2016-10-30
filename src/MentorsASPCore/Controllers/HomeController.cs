@@ -4,6 +4,7 @@ using MentorsASPCore.Models;
 using Microsoft.EntityFrameworkCore;
 using MentorsASPCore.Models.DTO;
 using MentorsASPCore.BussinesLogic;
+using System.Collections.Generic;
 
 namespace MentorsASPCore.Controllers
 {
@@ -56,9 +57,20 @@ namespace MentorsASPCore.Controllers
         [HttpPost]
         public RedirectResult ChangeMentorInfo(Mentor mentor)
         {
-            db.Mentors.Remove(mentor);
+            db.Mentors.Update(mentor);
+
+            var ment = db.Mentors.Include(m => m.MentorTecnology).First(m => m.Id == mentor.Id);
+
+            for(int i = 0; i < ment.MentorTecnology.Count; i++)
+            {
+                var mentTec = ment.MentorTecnology.First(mt => mt.MentorId == ment.Id);
+                ment.MentorTecnology.Remove(mentTec);
+                db.SaveChanges();
+            }
+                        
+            
+            Home.AddTecnologiesToMentor(mentor, Request.Form.Keys.ToList(), db);
             db.SaveChanges();
-            Home.AddMentor(mentor, Request.Form.Keys.ToList(), db);
 
             return Redirect("~/Home/Mentors");
         }

@@ -66,7 +66,7 @@ namespace MentorsASPCore.BussinesLogic
             db.SaveChanges();
         }
 
-        private static void AddTecnologiesToMentor(Mentor mentor, List<string> requestFormKeys, MentorsContext db)
+        public static void AddTecnologiesToMentor(Mentor mentor, List<string> requestFormKeys, MentorsContext db)
         {
             foreach (var x in requestFormKeys)
             {
