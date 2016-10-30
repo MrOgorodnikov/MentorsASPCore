@@ -31,19 +31,14 @@
             @t.Name 
 
             @if (Model.MentorsTecnologies.Contains(t))
-            {
-                @*@Html.CheckBox(t.Id.ToString(), true);*@
+            {               
                 <input type="checkbox" name="@t.Id" value="@t.Name" checked />
             }
             else
             {
-                @*@Html.CheckBox(t.Id.ToString(), false)*@
                 <input type="checkbox" name="@t.Id " value="@t.Name" />
 
             }
-
-
-
         }
 
         <p><input type="submit" name="Submmit" />

@@ -48,24 +48,66 @@ namespace MentorsASPCore.Controllers
                 
             
             ViewBag.MentorId = Id;
-            return View(new MentorTecnologiesDTO { Mentor = mentor, AllTecnologies = tecnologiesList, MentorsTecnologies = mentorsTecnologies});
+            return View(new MentorTecnologiesDTO
+            {
+                Mentor = mentor,
+                AllTecnologies = tecnologiesList,
+                MentorsTecnologies = mentorsTecnologies
+            });
         }
 
         [HttpPost]
         public RedirectResult ChangeMentorInfo(Mentor mentor)
         {
-            db.Mentors.Update(mentor);
+            db.Mentors.Remove(mentor);
             db.SaveChanges();
-
-            //Use it Tecnology.Id only int
-
-            //foreach (var x in Request.Form.Keys)
-            //{
-            //    x.A
-            //}
-            
+            Add(mentor);
 
             return Redirect("~/Home/Mentors");
+        }
+
+        public IActionResult Add()
+        {
+            return View(db.Tecnologies.ToList());
+        }
+
+        [HttpPost]
+        public RedirectResult Add(Mentor mentor)
+        {
+            var newMentor = new Mentor
+            {
+                Name = mentor.Name,
+                Surname = mentor.Surname,
+                Age = mentor.Age,
+                ExperienceInYear = mentor.ExperienceInYear,
+                MaxStudentCount = mentor.MaxStudentCount,
+                PlaceOfWork = mentor.PlaceOfWork
+            };
+            db.Mentors.Add(newMentor);
+            db.SaveChanges();
+            AddTecnologiesToMentor(newMentor);
+
+            db.SaveChanges();
+
+            return Redirect("~/Home/Mentors");
+        }
+
+        private void AddTecnologiesToMentor(Mentor mentor)
+        {
+            foreach (var x in Request.Form.Keys)
+            {
+                int id;
+                if (int.TryParse(x, out id))
+                    db.Mentors
+                        .First(m => m.Id == mentor.Id)
+                        .MentorTecnology
+                        .Add(new MentorTecnology
+                        {
+                            Mentor = mentor,
+                            Tecnology =
+                        db.Tecnologies.First(t => t.Id == id)
+                        });
+            }
         }
 
         private List<MentorTecnologyDTO> CreateMentorTecnologyList()

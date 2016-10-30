@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MentorsASPCore.Models.Tecnology>
+@{
+    Layout = null;
+}
+
+<!Doctype html>
+<html>
+<head>
+    <title>
+        Add new mentor
+    </title>
+</head>
+<body>
+    <form method="post">
+        
+        <p>Name: <input type="text" value="" name="Name" /></p>
+
+        <p>Surname: <input type="text" value="" name="Surname" /></p>
+
+        <p>Age: <input type="text" value="" name="Age" /></p>
+
+        <p>Place of work: <input type="text" value="" name="PlaceOfWork" /></p>
+
+        <p>Max student count: <input type="text" value="" name="MaxStudentCount" /></p>
+
+
+        @foreach (var t in Model)
+        {                        
+            @t.Name <input type="checkbox" name="@t.Id " value="@t.Name" />            
+        }
+
+        <p><input type="submit" name="Submmit" />
+    </form>
+
+
+
+</body>
+</html>
