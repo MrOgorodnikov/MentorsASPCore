@@ -22,6 +22,7 @@
             <td>Experience</td>
             <td>Work</td>
             <td>Students</td>
+            <td>Max Students</td>
             <td>Tecnology</td>
         </tr>
 
@@ -33,6 +34,7 @@
                 <td>@mentor.Mentor.Age</td>
                 <td>@mentor.Mentor.ExperienceInYear</td>
                 <td>@mentor.Mentor.PlaceOfWork</td>
+                <td>@mentor.Mentor.CurrentStudentCount</td>
                 <td>@mentor.Mentor.MaxStudentCount</td>
                 <td>@mentor.Tecnology.Name</td>
                 <td><a href="~/Home/ChangeMentorInfo/@mentor.Mentor.Id">Change</a></td>
@@ -40,6 +42,6 @@
             </tr>
         }
     </table>
-    <p><a href="~/Home/Add">Add new Mentor</a></p>
+    <p><a href="~/Home/AddMentor">Add new Mentor</a></p>
 </body>
 </html>   

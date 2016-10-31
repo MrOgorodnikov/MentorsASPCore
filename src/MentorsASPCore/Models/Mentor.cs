@@ -19,6 +19,7 @@ namespace MentorsASPCore.Models
         public int ExperienceInYear { get; set; }
         [Required]
         public int MaxStudentCount { get; set; }
+        public int CurrentStudentCount { get; set; }
         public string PlaceOfWork { get; set; }
 
         public ICollection<MentorStudent> MentorStudent { get; set; }

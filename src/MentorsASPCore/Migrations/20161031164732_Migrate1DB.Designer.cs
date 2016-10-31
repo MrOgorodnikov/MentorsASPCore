@@ -8,9 +8,10 @@ using MentorsASPCore.Models;
 namespace MentorsASPCore.Migrations
 {
     [DbContext(typeof(MentorsContext))]
-    partial class MentorsContextModelSnapshot : ModelSnapshot
+    [Migration("20161031164732_Migrate1DB")]
+    partial class Migrate1DB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")

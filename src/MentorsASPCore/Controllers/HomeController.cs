@@ -70,18 +70,18 @@ namespace MentorsASPCore.Controllers
                         
             
             Home.AddTecnologiesToMentor(mentor, Request.Form.Keys.ToList(), db);
-            db.SaveChanges();
+            
 
             return Redirect("~/Home/Mentors");
         }
 
-        public IActionResult Add()
+        public IActionResult AddMentor()
         {
             return View(db.Tecnologies.ToList());
         }
 
         [HttpPost]
-        public RedirectResult Add(Mentor mentor)
+        public RedirectResult AddMentor(Mentor mentor)
         {
             Home.AddMentor(mentor, Request.Form.Keys.ToList(), db);
 

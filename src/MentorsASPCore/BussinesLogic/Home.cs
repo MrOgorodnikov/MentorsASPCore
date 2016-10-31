@@ -63,7 +63,7 @@ namespace MentorsASPCore.BussinesLogic
             db.SaveChanges();
             AddTecnologiesToMentor(newMentor, requestFormKeys, db);
 
-            db.SaveChanges();
+            
         }
 
         public static void AddTecnologiesToMentor(Mentor mentor, List<string> requestFormKeys, MentorsContext db)
@@ -82,6 +82,8 @@ namespace MentorsASPCore.BussinesLogic
                         db.Tecnologies.First(t => t.Id == id)
                         });
             }
+
+            db.SaveChanges();
         }
     }
 }

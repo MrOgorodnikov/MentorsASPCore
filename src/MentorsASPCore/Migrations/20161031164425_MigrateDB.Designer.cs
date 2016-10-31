@@ -8,9 +8,10 @@ using MentorsASPCore.Models;
 namespace MentorsASPCore.Migrations
 {
     [DbContext(typeof(MentorsContext))]
-    partial class MentorsContextModelSnapshot : ModelSnapshot
+    [Migration("20161031164425_MigrateDB")]
+    partial class MigrateDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -23,8 +24,6 @@ namespace MentorsASPCore.Migrations
 
                     b.Property<int>("Age");
 
-                    b.Property<int>("CurrentStudentCount");
-
                     b.Property<int>("ExperienceInYear");
 
                     b.Property<int>("MaxStudentCount");
@@ -33,6 +32,8 @@ namespace MentorsASPCore.Migrations
                         .IsRequired();
 
                     b.Property<string>("PlaceOfWork");
+
+                    b.Property<int>("PublicStudentCount");
 
                     b.Property<string>("Surname")
                         .IsRequired();
