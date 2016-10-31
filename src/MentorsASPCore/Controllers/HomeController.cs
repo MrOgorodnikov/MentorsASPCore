@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MentorsASPCore.Models.DTO;
 using MentorsASPCore.BussinesLogic;
 using System.Collections.Generic;
+using MentorsASPCore.Models.View;
 
 namespace MentorsASPCore.Controllers
 {
@@ -88,12 +89,45 @@ namespace MentorsASPCore.Controllers
             return Redirect("~/Home/Mentors");
         }
 
-        
+        public IActionResult Students()
+        {
 
-        
+            return View(db.Students.ToList());
+        }
 
-        
+        public IActionResult MoreAboutStudent(int id)
+        {
+            return View(CreateStudent(id));
+        }
+        [HttpGet]
+        public IActionResult EditStudent(int id)
+        {
+            return View(CreateStudent(id));
+        }
 
-       
+        private StudentView CreateStudent(int id)
+        {
+            var student = db.Students
+                            .Include(ms => ms.MentorStudent)
+                            .ThenInclude(m => m.Mentor)
+                            .First(s => s.Id == id);
+            var mentList = student.MentorStudent.Select(m => m.Mentor).ToList();
+            student = db.Students
+                        .Include(st => st.StudentTecnology)
+                        .ThenInclude(t => t.Tecnology)
+                        .First(s => s.Id == id);
+            var tecList = student.StudentTecnology.Select(t => t.Tecnology).ToList();
+            student = db.Students.First(s => s.Id == id);
+
+            return new StudentView { Student = student, Mentors = mentList, Tecnologies = tecList };
+        }
+
+
+
+
+
+
+
+
     }
 }
